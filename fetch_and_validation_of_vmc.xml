@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.miek.nl" -->
+<rfc version="3" ipr="trust200902" docName="draft-fetch-validation-vmc-wchuang-04" submissionType="IETF" category="std" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" consensus="true">
+
+<front>
+<title abbrev="fetch_and_validation_of_vmc">Fetch and Validation of Verified Mark Certificates</title><seriesInfo value="draft-fetch-validation-vmc-wchuang-04" stream="IETF" status="standard" name="Internet-Draft"></seriesInfo>
+<author initials="W." surname="Chuang" fullname="Weihaw Chuang"><organization>Google</organization><address><postal><street></street>
+</postal><email>weihaw@google.com</email>
+</address></author>
+<author initials="M." surname="Bradshaw" fullname="Marc Bradshaw"><organization>Fastmail</organization><address><postal><street></street>
+</postal><email>marc@fastmailteam.com</email>
+</address></author>
+<author initials="T." surname="Loder" fullname="Thede Loder"><organization>Skyelogicworks</organization><address><postal><street></street>
+</postal><email>thede@skyelogicworks.com</email>
+</address></author>
+<author initials="A." surname="Brotman" fullname="Alex Brotman (ed)"><organization>Comcast</organization><address><postal><street></street>
+</postal><email>alex_brotman@comcast.com</email>
+</address></author>
+<date year="2023" month="April" day="7"></date>
+<area>Application</area>
+<workgroup>Network</workgroup>
+
+<abstract>
+<t>A description of how entities wishing to validate a Verified Mark
+Certificate (VMC) should retrieve and validate these documents.<br />
+This document is a companion to BIMI core specification, which
+should be consulted alongside this document.</t>
+</abstract>
+
+</front>
+
+<middle>
+
+<section anchor="introduction"><name>Introduction</name>
+<t>Brands Indicators or logos help people visually recognize products and services,
+and consequently their providers.  In the context of email, it can help users
+understand who a sender is.  Brand Indicators for Message Identification is a
+specification as described in <xref target="I-D.blank-ietf-bimi"></xref> for senders to
+associate and provide brand Indicators to email.  As noted in that document's
+security considerations, the potential for abuse with brand indicators is high,
+and in particular a risk for look-alike domains and copycat indicators.  One way
+to mitigate abuse is to validate brand ownership of some Indicators by some
+third-party and have that validation provably demonstrated through an X.509/PKIX
+<xref target="RFC5280"></xref> certificate as an evidence document <xref target="I-D.blank-ietf-bimi"></xref>.  We
+call such certificates containing Indicators that meet the profile described
+later in this document Verified Mark Certificate (VMC).  This document provides
+a specification on how email receivers working on behalf of email users can
+fetch VMC from the Internet and how they can validate the content of the VMC.
+With this, the email receiver can prove that the VMC was indeed issued by some
+trusted third-party such as a Certification Authority (CA).</t>
+</section>
+
+<section anchor="terminology"><name>Terminology</name>
+<t>BIMI: Brand Indicators for Message Identification (BIMI) specification
+<xref target="I-D.blank-ietf-bimi"></xref> that combines DMARC-based message authentication with
+cryptographic methods to ensure the identity of a sender.</t>
+<t>BIMI Evidence Document: A document published by a Mark Verifying Authority (MVA)
+which in the context of a Verified Mark Certificate (VMC) is a Certification
+Authority (CA) to assert evidence of verification.</t>
+<t>Email Receivers: The entity or organization that receives and processes email.
+Mail Receivers operate one or more Internet facing Mail Transport Agents (MTAs).</t>
+<t>End entity certificate: A non-CA certificate representing a user (or domain) of
+the PKI certificates.</t>
+<t>Indicator: A brand indicator displayed on a Mail User Agent (MUA e.g., an email
+client) when the sender's email meets the BIMI specification requirements.  The
+brand logo and other associated identity information is parsed from the Verified
+Mark Certificate.  Immediate issuing CA certificate: A non-root CA certificate
+that issues end entity certificates.</t>
+<t>Root certificate: A self-signed CA certificate issued by the root CA to identify
+itself and to facilitate verification of certificates issued by Subordinate CAs.</t>
+<t>Verified Mark Certificate (VMC): An end entity certificate that meets the
+profile specified in this document and the Verified Mark Certificate Guideline
+document.</t>
+</section>
+
+<section anchor="fetch-of-verified-mark-certificate"><name>Fetch of Verified Mark Certificate</name>
+<t>This section normatively describes the actions needed to receive and handle BIMI
+identified messages using Verified Mark Certificates that is built on the
+protocol described in the <xref target="I-D.blank-ietf-bimi"></xref>.  Receivers use these
+specified processes to fetch Verified Mark Certificates securely, and then to
+validate the certificates and their embedded Indicators.  If all requirements
+are met, receivers may then display the Indicators.  Details of these steps are
+described below, and the indicator display procedure is described here.</t>
+
+<section anchor="bimi-assertion-record"><name>BIMI Assertion Record</name>
+<t>The sender declares associating BIMI to a domain via an Assertion record as
+normatively described by <xref target="I-D.blank-ietf-bimi"></xref>.  That record describes the
+BIMI policy and that policy may include a means to find the BIMI Indicator via
+the publication of evidence documents.  The email receiver uses <xref target="RFC1035"></xref> to look
+for the publication of the Assertion record as well as the lack of publication
+when <xref target="RFC1035"></xref> returns NXDOMAIN.  Assertion records containing the &quot;a=&quot; tag and
+associated populated value indicates that a sender has published a BIMI evidence
+document for use with that domain such a Verified Mark Certificate.  The
+evidence document may be found at a hosting service specified by the URI in the
+value.  The rest of this document describes the process for fetching and
+validating the Verified Mark Certificate with the clarification that other types
+of evidence document will have their own specification for fetch and validation.</t>
+</section>
+
+<section anchor="verified-mark-certificate-fetch"><name>Verified Mark Certificate Fetch</name>
+<t>Verified Mark Certificates, in this specification, are published by the sender's
+web hosting service.  The service MUST use HTTPS protocol and SHOULD use TLS
+version v1.2 <xref target="RFC5246"></xref> or newer to avoid protocol security bugs with earlier
+versions of TLS.  That secure TLS connection MUST be established by using the
+protocol specified in <xref target="RFC8446"></xref>.  The TLS certificate MUST have a valid issuance
+path to some client trusted server root CA certificate using the procedures in
+<xref target="RFC5280"></xref>.</t>
+</section>
+
+<section anchor="fetch-format"><name>Fetch Format</name>
+<t>Certificates fetched from the hosting service MUST be in PEM encoding
+<xref target="RFC7468"></xref>.  To facilitate X.509/PKIX certificate issuance validation, the full
+issuance chain up to and optionally including the root CA certificate, MUST be
+present.  The downloaded file SHOULD be ordered by starting with the Verified
+Mark Certificate, followed by its issuer CA certificate and potential successive
+issuers all the way to the optional root CA certificate.  If the certificates
+appear out of issuance order, contain duplicates or more than one VMC, the
+receiver may choose to reject the validation.  The filename specified of the
+BIMI Assertion record &quot;a=&quot; tag URI SHOULD have a &quot;.pem&quot; file name extension.
+Email receivers MAY cache the certificates and other evidence documents, and if
+so the receivers SHOULD set a Time-To-Live (TTL) on the cache entries as well as
+index by URI.  This document intentionally does not specify what that TTL value
+is.  If the sender wants force a certificate update, the sender MAY change the
+URI to a new unique location that will &quot;bust the cache&quot;.</t>
+</section>
+</section>
+
+<section anchor="verified-mark-certificate-profile"><name>Verified Mark Certificate Profile</name>
+<t>The profile describes the metadata contained within the Verified Mark
+Certificate.  This section normatively describes a subset of the Verified Mark
+Certificate profile that pertains to the certificate issuance and validity
+verification.  The remaining content of the VMC profile is defined via guidance
+documents from the Authindicators (aka BIMI) Working Group, and in particular
+the process for obtaining that content (with some overlap).  For example, while
+this section defines a requirement for the VMC to contain the Logotype
+extension, the Authindicators' VMC Guidelines document defines the content of
+the logotype extension.  The following section describes the VMC profile checks
+using the profile described here as part of the VMC validation process.</t>
+
+<section anchor="logotype-extension"><name>Logotype Extension</name>
+<t>Verified Mark Certificates MUST use logotype extension to carry the Indicators
+in the certificate as specified in <xref target="RFC3709"></xref>.  That RFC uses secure URIs to
+specify the Indicators, and this specification calls for the Indicators to be
+embedded directly in the certificate via a DATA URI as defined by <xref target="RFC6170"></xref>
+and <xref target="RFC2397"></xref>.</t>
+</section>
+
+<section anchor="svg-indicators"><name>SVG Indicators</name>
+<t>The Indicators image format MUST be SVG (an open W3C specification) as this
+helps with supporting different display resolutions that likely change in the
+future as SVG is a vectorized (meaning dimensionless) format.  We believe that
+constraining the Indicators to a single image type will help with
+interoperability.  This SVG MUST use the secure profile as defined by
+<xref target="RFC6170"></xref>.  Non-normatively, to reiterate the secure profile defined there, it
+is summarized as:</t>
+
+<ul>
+<li>Use SVG Tiny profile</li>
+<li>No script</li>
+<li>No external resource references</li>
+</ul>
+<t>Additionally this document normatively specifies additional security
+restrictions on the SVG formatting as defined in
+<xref target="I-D.svg-tiny-ps-abrotman"></xref>.  The SVG MUST be compressed to be space
+efficient, and base64 encoded for the DATA URI encoding as defined by <xref target="RFC6170"></xref>
+and <xref target="RFC2397"></xref>.</t>
+</section>
+
+<section anchor="bimi-domain"><name>BIMI Domain</name>
+<t>A Verified Mark Certificate MUST define one or more Subject Alternative Name
+(SAN) extension dNSName domain as defined by <xref target="RFC5280"></xref> that identifies the
+location of the BIMI Assertion record that was used to fetch the VMC.  There may
+be stronger properties that can be said about the relationship between the VMC
+and the Assertion record depending on the validation done on dNSName, but that
+is outside the scope of this document.  The domain name may either be the author
+or organizational name as defined in <xref target="I-D.blank-ietf-bimi"></xref> i.e. the
+Assertion record domain without the BIMI header selector or &quot;default&quot; selector
+and without the &quot;<em>bimi&quot; well-known label, meaning that it matches against any
+BIMI header selector including &quot;default&quot;.  Alternatively the domain name may
+specify also the BIMI header selector or &quot;default&quot; selector along with the
+&quot;</em>bimi&quot; well-known label, and will only match against that specific selector.
+If the domain is internationalized, it MUST follow canonicalization procedure
+specified in section 7.2 of <xref target="RFC5280"></xref>.</t>
+</section>
+
+<section anchor="bimi-extended-key-usage"><name>BIMI Extended Key Usage</name>
+<t>This document describes a new <xref target="RFC5280"></xref> Extended Key Usage OID that identifies
+Verified Mark Certificate as id-kp-BrandIndicatorforMessageIdentification.
+Certificates conforming to the Verified Mark Certificate profile is
+distinguished by using this extended key usage.</t>
+
+<sourcecode type="go">id-kp-BrandIndicatorforMessageIdentification OBJECT IDENTIFIER ::= {id-kp 31 } OID.
+</sourcecode>
+<t>Verified Mark Certificates MUST contain an Extended Key Usage extension with the
+id-kp-BrandIndicatorforMessageIdentification OID.  Also the CA certificate
+representing the immediate issuer of Verified Mark Certificates MUST also
+contain an Extended Key Usage extension with the
+id-kp-BrandIndicatorforMessageIdentification OID designating its usage.</t>
+</section>
+
+<section anchor="validity"><name>Validity</name>
+<t>A Verified Mark Certificate MUST specify a certificate validity period using the
+notBefore and notAfter fields.  It MUST also define a location to check for
+certificate revocation using a Certificate Revocation List (CRL) Distribution
+Point and that is encoded in the VMC as a [RFC5280] cRLDistributionPoints
+extension.</t>
+</section>
+
+<section anchor="certificate-transparency"><name>Certificate Transparency</name>
+<t>CT as specified provides transparency for the issued certificates.  The Verified
+Mark Certificate MUST be logged to a set of Certificate Transparency (CT) logs,
+and the proof of that logging must be present in the certificate as a
+<xref target="RFC6962"></xref> SCT extension.  The SCT extension MUST contain one or more SCTs.</t>
+</section>
+</section>
+
+<section anchor="validation-of-verified-mark-certificate"><name>Validation of Verified Mark Certificate</name>
+<t>Verified Mark Certificates provide the means to securely authenticate as well as
+identify the third-party Mark Verifying Authority which in this case is a
+Certification Authority by verifying the issuance chain.  It also provides the
+means to associate the Verified Mark Certificate to the BIMI Assertion record.
+This section concludes with a BIMI validation procedure for determining whether
+the VMC is valid or not.  This should be used as part of a procedure in
+determining whether to display a BIMI Indicator based on a VMC.</t>
+
+<section anchor="issuance-and-profile-verification"><name>Issuance and Profile Verification</name>
+<t>To ensure the correctness of that certificate information, the receiver verifies
+the authenticity of the certificate, its validity and that it is a Verified Mark
+Certificate.  After the certificate is downloaded, the receiver MUST validate
+the certificate with the following procedure:</t>
+
+<ol>
+<li>Validate the authenticity of the certificate by checking the certificate
+signatures, that the end-entity certificate issuance chain leads back to some
+BIMI root CA certificate, and confirm membership of the root CA certificate
+in the receiver's trusted BIMI root set following the path validation
+procedures specified in section 6.1 of <xref target="RFC5280"></xref>.  The downloaded
+certificates MUST contain all intermediate CA certificates up to but not
+necessarily including the root certificates.</li>
+<li>Check the validity of the certificates in the certificate chain using the
+procedures in section 4.1.2.5 of <xref target="RFC5280"></xref>.</li>
+<li>Check that the certificates in the certificate chain are not revoked using
+the procedures in section 6.3 of <xref target="RFC5280"></xref>.  The end-entity certificate MUST
+identify the CRL by a cRLDistributionPoints extension.</li>
+<li>Validate the proof of CT logging.  The receiver MUST find one or more SCTs,
+and validate that they are signed by a CT log recognized by the receiver
+using the procedures in <xref target="RFC6962"></xref>.</li>
+<li>Verify that the end-entity certificate is a Verified Mark Certificate.  The
+certificate MUST contain an Extended-Key-Usage extension, and that it
+contains extended-key-usage is id-kp-BrandIndicatorforMessageIdentification.
+The entity certificate must contain a logotype extension, and that it
+contains a SVG as described in [#svg_indicators].</li>
+</ol>
+</section>
+
+<section anchor="vmc-domain-verification"><name>VMC Domain Verification</name>
+<t>Next the receiver checks VMC SAN dNSName domain name relationship to the
+Assertion Record domain name, to demonstrate that they mutually identify each
+other.  The following procedure allows the dNSName to either specify and thus
+match against the Assertion Record's domain name only, or selector + domain
+name.  To do this, the receiver creates two domain name sets: 1) selector-set
+and 2) domain-set.  The receiver iterates over the VMC SAN dNSName domain names
+and adds them to the domain name sets as follows.</t>
+
+<ul>
+<li>If the domain name contains &quot;<em>bimi&quot; i.e. prefixed with the labels
+&lt;selector&gt;.</em>bimi, add to selector-set.</li>
+<li>Otherwise add the domain name to domain-set.</li>
+</ul>
+<t>Then check if the Assertion record domain matches by checking the following:</t>
+
+<ul>
+<li>Check if the Assertion record author or organizational domain names as defined
+in [draft-blank-ietf-bimi-01], which includes the &lt;selector&gt;._bimi prefix, is
+present in the selector-set.  If found, the VMC Domain Verification is
+considered to match.</li>
+<li>Check if the remaining Assertion record author or organizational domain name
+is present in the domain-set.  If found, the VMC Domain Verification is
+considered to match.</li>
+</ul>
+<t>If internationalization is present, the receiver MUST canonicalize the domain
+names using the internationalization procedures specified in section 7.2 of
+<xref target="RFC5280"></xref>.</t>
+</section>
+
+<section anchor="validation-of-vmc-evidence-document"><name>Validation of VMC Evidence Document</name>
+<t>The following procedure combines the above steps to determine whether a VMC
+contains a valid BIMI Evidence Document.  This should be a part of a larger
+receiver defined procedure to determine whether to display a BIMI Indicator that
+may take into account other receiver specific signals such as reputation.</t>
+<t>As a preamble, consider if the receiver supports VMC validation and an Assertion
+Record is found which has BIMI VMC location in the &quot;a=&quot; tag value.  If so then
+validate the VMC using the following algorithm:</t>
+
+<ol>
+<li>Use the mechanism in the &quot;a=&quot; tag location to retrieve the VMC, this MUST be a
+URI with HTTPS transport.</li>
+<li>If the TLS connection setup as described in
+[#verified<em>mark</em>certificate_fetch] fails, then validation returns with an
+error.</li>
+<li>If the evidence document does not contain a single valid VMC certificate
+chain then validation returns with an error.</li>
+<li>Validate the VMC path validation procedure described in
+[#issuance<em>and</em>profile_verification]. If path validation fails then
+validation returns with an error.</li>
+<li>Validate the VMC Domain relationship to the Assertion record as described in
+[#VMC<em>domain</em>verification] i.e. matches.  If the VMC Domain is not related to
+the Assertion record, then validation returns with an error.</li>
+<li>Retrieve the SVG Indicator from the [Logotype] Extension (oid
+1.3.6.1.5.5.7.1.12) of the validated VMC.</li>
+<li>Optionally, the receiver MAY choose to retrieve the SVG Indicator from the
+URI specified in the l= tag location of the Assertion Record and compare this
+to the SVG Indicator embedded within the VMC. The receiver MAY fail
+validation if these Indicators differ.</li>
+<li>Validate the certificate meets the remaining profile specification of the VMC
+as described in [#verified<em>mark</em>certificate_profile], otherwise validation
+returns with an error.</li>
+<li>Proceed to the Indicator Validation as described in section 8.6 in
+<xref target="I-D.blank-ietf-bimi"></xref>.</li>
+</ol>
+</section>
+</section>
+
+<section anchor="appendix"><name>Appendix</name>
+
+<section anchor="iana-considerations"><name>IANA Considerations</name>
+<t>IANA is kindly requested to reserve the following assignments for:</t>
+
+<ul>
+<li>The LAMPS-Bimi-Certificate-2018 ASN.1 module in the &quot;SMI Security
+for PKIX Extended Key Purpose&quot; registry (1.3.6.1.5.5.7.3).</li>
+<li>The BIMI certificate extended key usage (1.3.6.1.5.5.7.3.31).</li>
+</ul>
+</section>
+</section>
+
+</middle>
+
+<back>
+<references><name>Normative References</name>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.blank-ietf-bimi.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.svg-tiny-ps-abrotman.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2397.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3709.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5246.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6170.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6962.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7468.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/>
+</references>
+
+</back>
+
+</rfc>
