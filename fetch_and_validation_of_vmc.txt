@@ -5,16 +5,16 @@
 Network                                                        W. Chuang
 Internet-Draft                                                    Google
 Intended status: Standards Track                             M. Bradshaw
-Expires: 9 October 2023                                         Fastmail
+Expires: 6 March 2024                                           Fastmail
                                                                 T. Loder
                                                           Skyelogicworks
                                                               A. Brotman
                                                                  Comcast
-                                                            7 April 2023
+                                                        3 September 2023
 
 
            Fetch and Validation of Verified Mark Certificates
-                 draft-fetch-validation-vmc-wchuang-04
+                 draft-fetch-validation-vmc-wchuang-05
 
 Abstract
 
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 October 2023.
+   This Internet-Draft will expire on 6 March 2024.
 
 Copyright Notice
 
@@ -53,66 +53,38 @@ Copyright Notice
 
 
 
-Chuang, et al.           Expires 9 October 2023                 [Page 1]
+Chuang, et al.            Expires 6 March 2024                  [Page 1]
 
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
 
 
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
-   3.  Fetch of Verified Mark Certificate  . . . . . . . . . . . . .   4
+   3.  Fetch of Verified Mark Certificate  . . . . . . . . . . . . .   3
      3.1.  BIMI Assertion Record . . . . . . . . . . . . . . . . . .   4
      3.2.  Verified Mark Certificate Fetch . . . . . . . . . . . . .   4
-     3.3.  Fetch Format  . . . . . . . . . . . . . . . . . . . . . .   5
+     3.3.  Fetch Format  . . . . . . . . . . . . . . . . . . . . . .   4
    4.  Verified Mark Certificate Profile . . . . . . . . . . . . . .   5
      4.1.  Logotype Extension  . . . . . . . . . . . . . . . . . . .   5
-     4.2.  SVG Indicators  . . . . . . . . . . . . . . . . . . . . .   6
+     4.2.  SVG Indicators  . . . . . . . . . . . . . . . . . . . . .   5
      4.3.  BIMI Domain . . . . . . . . . . . . . . . . . . . . . . .   6
-     4.4.  BIMI Extended Key Usage . . . . . . . . . . . . . . . . .   7
-     4.5.  Validity  . . . . . . . . . . . . . . . . . . . . . . . .   7
+     4.4.  BIMI Extended Key Usage . . . . . . . . . . . . . . . . .   6
+     4.5.  Validity  . . . . . . . . . . . . . . . . . . . . . . . .   6
      4.6.  Certificate Transparency  . . . . . . . . . . . . . . . .   7
    5.  Validation of Verified Mark Certificate . . . . . . . . . . .   7
-     5.1.  Issuance and Profile Verification . . . . . . . . . . . .   8
+     5.1.  Issuance and Profile Verification . . . . . . . . . . . .   7
      5.2.  VMC Domain Verification . . . . . . . . . . . . . . . . .   8
-     5.3.  Validation of VMC Evidence Document . . . . . . . . . . .   9
-   6.  Appendix  . . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     6.1.  IANA Considerations . . . . . . . . . . . . . . . . . . .  10
-   7.  Normative References  . . . . . . . . . . . . . . . . . . . .  10
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 2]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
+     5.3.  Validation of VMC Evidence Document . . . . . . . . . . .   8
+   6.  Appendix  . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     6.1.  IANA Considerations . . . . . . . . . . . . . . . . . . .   9
+   7.  Normative References  . . . . . . . . . . . . . . . . . . . .   9
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
 
 1.  Introduction
 
@@ -134,6 +106,14 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    behalf of email users can fetch VMC from the Internet and how they
    can validate the content of the VMC.  With this, the email receiver
    can prove that the VMC was indeed issued by some trusted third-party
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 2]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
+
    such as a Certification Authority (CA).
 
 2.  Terminology
@@ -162,14 +142,6 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    Immediate issuing CA certificate: A non-root CA certificate that
    issues end entity certificates.
 
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 3]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
-
    Root certificate: A self-signed CA certificate issued by the root CA
    to identify itself and to facilitate verification of certificates
    issued by Subordinate CAs.
@@ -189,6 +161,14 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    may then display the Indicators.  Details of these steps are
    described below, and the indicator display procedure is described
    here.
+
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 3]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
 
 3.1.  BIMI Assertion Record
 
@@ -218,14 +198,6 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    some client trusted server root CA certificate using the procedures
    in [RFC5280].
 
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 4]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
-
 3.3.  Fetch Format
 
    Certificates fetched from the hosting service MUST be in PEM encoding
@@ -244,6 +216,15 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    intentionally does not specify what that TTL value is.  If the sender
    wants force a certificate update, the sender MAY change the URI to a
    new unique location that will "bust the cache".
+
+
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 4]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
 
 4.  Verified Mark Certificate Profile
 
@@ -268,20 +249,6 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    calls for the Indicators to be embedded directly in the certificate
    via a DATA URI as defined by [RFC6170] and [RFC2397].
 
-
-
-
-
-
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 5]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
-
 4.2.  SVG Indicators
 
    The Indicators image format MUST be SVG (an open W3C specification)
@@ -294,9 +261,7 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    summarized as:
 
    *  Use SVG Tiny profile
-
    *  No script
-
    *  No external resource references
 
    Additionally this document normatively specifies additional security
@@ -304,6 +269,18 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    [I-D.svg-tiny-ps-abrotman].  The SVG MUST be compressed to be space
    efficient, and base64 encoded for the DATA URI encoding as defined by
    [RFC6170] and [RFC2397].
+
+
+
+
+
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 5]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
 
 4.3.  BIMI Domain
 
@@ -324,19 +301,6 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    specific selector.  If the domain is internationalized, it MUST
    follow canonicalization procedure specified in section 7.2 of
    [RFC5280].
-
-
-
-
-
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 6]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
 
 4.4.  BIMI Extended Key Usage
 
@@ -363,6 +327,17 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    Revocation List (CRL) Distribution Point and that is encoded in the
    VMC as a [RFC5280] cRLDistributionPoints extension.
 
+
+
+
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 6]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
+
 4.6.  Certificate Transparency
 
    CT as specified provides transparency for the issued certificates.
@@ -382,18 +357,6 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    valid or not.  This should be used as part of a procedure in
    determining whether to display a BIMI Indicator based on a VMC.
 
-
-
-
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 7]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
-
 5.1.  Issuance and Profile Verification
 
    To ensure the correctness of that certificate information, the
@@ -410,18 +373,26 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
        in section 6.1 of [RFC5280].  The downloaded certificates MUST
        contain all intermediate CA certificates up to but not
        necessarily including the root certificates.
-
    2.  Check the validity of the certificates in the certificate chain
        using the procedures in section 4.1.2.5 of [RFC5280].
-
    3.  Check that the certificates in the certificate chain are not
        revoked using the procedures in section 6.3 of [RFC5280].  The
        end-entity certificate MUST identify the CRL by a
        cRLDistributionPoints extension.
-
    4.  Validate the proof of CT logging.  The receiver MUST find one or
        more SCTs, and validate that they are signed by a CT log
        recognized by the receiver using the procedures in [RFC6962].
+
+
+
+
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 7]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
 
    5.  Verify that the end-entity certificate is a Verified Mark
        Certificate.  The certificate MUST contain an Extended-Key-Usage
@@ -441,18 +412,8 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    receiver iterates over the VMC SAN dNSName domain names and adds them
    to the domain name sets as follows.
 
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 8]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
-
    *  If the domain name contains "_bimi" i.e. prefixed with the labels
       <selector>._bimi, add to selector-set.
-
    *  Otherwise add the domain name to domain-set.
 
    Then check if the Assertion record domain matches by checking the
@@ -462,7 +423,6 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
       names as defined in [draft-blank-ietf-bimi-01], which includes the
       <selector>._bimi prefix, is present in the selector-set.  If
       found, the VMC Domain Verification is considered to match.
-
    *  Check if the remaining Assertion record author or organizational
       domain name is present in the domain-set.  If found, the VMC
       Domain Verification is considered to match.
@@ -479,6 +439,17 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    display a BIMI Indicator that may take into account other receiver
    specific signals such as reputation.
 
+
+
+
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 8]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
+
    As a preamble, consider if the receiver supports VMC validation and
    an Assertion Record is found which has BIMI VMC location in the "a="
    tag value.  If so then validate the VMC using the following
@@ -486,45 +457,29 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
 
    1.  Use the mechanism in the "a=" tag location to retrieve the VMC,
        this MUST be a URI with HTTPS transport.
-
    2.  If the TLS connection setup as described in
        [#verified_mark_certificate_fetch] fails, then validation returns
        with an error.
-
    3.  If the evidence document does not contain a single valid VMC
        certificate chain then validation returns with an error.
-
    4.  Validate the VMC path validation procedure described in
        [#issuance_and_profile_verification].  If path validation fails
        then validation returns with an error.
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                 [Page 9]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
-
    5.  Validate the VMC Domain relationship to the Assertion record as
        described in [#VMC_domain_verification] i.e. matches.  If the VMC
        Domain is not related to the Assertion record, then validation
        returns with an error.
-
    6.  Retrieve the SVG Indicator from the [Logotype] Extension (oid
        1.3.6.1.5.5.7.1.12) of the validated VMC.
-
    7.  Optionally, the receiver MAY choose to retrieve the SVG Indicator
        from the URI specified in the l= tag location of the Assertion
        Record and compare this to the SVG Indicator embedded within the
        VMC.  The receiver MAY fail validation if these Indicators
        differ.
-
    8.  Validate the certificate meets the remaining profile
        specification of the VMC as described in
        [#verified_mark_certificate_profile], otherwise validation
        returns with an error.
-
    9.  Proceed to the Indicator Validation as described in section 8.6
        in [I-D.blank-ietf-bimi].
 
@@ -536,7 +491,6 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
 
    *  The LAMPS-Bimi-Certificate-2018 ASN.1 module in the "SMI Security
       for PKIX Extended Key Purpose" registry (1.3.6.1.5.5.7.3).
-
    *  The BIMI certificate extended key usage (1.3.6.1.5.5.7.3.31).
 
 7.  Normative References
@@ -544,30 +498,25 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
    [I-D.blank-ietf-bimi]
               Blank, S., Goldstein, P., Loder, T., Zink, T., and M.
               Bradshaw, "Brand Indicators for Message Identification
+
+
+
+Chuang, et al.            Expires 6 March 2024                  [Page 9]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
+
               (BIMI)", Work in Progress, Internet-Draft, draft-blank-
               ietf-bimi-02, 9 March 2021,
               <https://datatracker.ietf.org/doc/html/draft-blank-ietf-
               bimi-02>.
 
-
-
-
-
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                [Page 10]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
-
    [I-D.svg-tiny-ps-abrotman]
               Brotman, A. and J. T. Adams, "SVG Tiny Portable/Secure",
               Work in Progress, Internet-Draft, draft-svg-tiny-ps-
-              abrotman-04, 9 October 2022,
+              abrotman-05, 7 April 2023,
               <https://datatracker.ietf.org/doc/html/draft-svg-tiny-ps-
-              abrotman-04>.
+              abrotman-05>.
 
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
@@ -606,41 +555,36 @@ Internet-Draft         fetch_and_validation_of_vmc            April 2023
               PKCS, and CMS Structures", RFC 7468, DOI 10.17487/RFC7468,
               April 2015, <https://www.rfc-editor.org/info/rfc7468>.
 
+
+
+Chuang, et al.            Expires 6 March 2024                 [Page 10]
+
+Internet-Draft         fetch_and_validation_of_vmc        September 2023
+
+
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/info/rfc8446>.
-
-
-
-
-Chuang, et al.           Expires 9 October 2023                [Page 11]
-
-Internet-Draft         fetch_and_validation_of_vmc            April 2023
-
 
 Authors' Addresses
 
    Weihaw Chuang
    Google
-
    Email: weihaw@google.com
 
 
    Marc Bradshaw
    Fastmail
-
    Email: marc@fastmailteam.com
 
 
    Thede Loder
    Skyelogicworks
-
    Email: thede@skyelogicworks.com
 
 
    Alex Brotman (ed)
    Comcast
-
    Email: alex_brotman@comcast.com
 
 
@@ -669,4 +613,4 @@ Authors' Addresses
 
 
 
-Chuang, et al.           Expires 9 October 2023                [Page 12]
+Chuang, et al.            Expires 6 March 2024                 [Page 11]
