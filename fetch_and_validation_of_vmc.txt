@@ -4,7 +4,7 @@
 
 Network                                                        W. Chuang
 Internet-Draft                                                    Google
-Intended status: Standards Track                             M. Bradshaw
+Intended status: Standards Track                             J. Bradshaw
 Expires: 3 November 2025                                        Fastmail
                                                                 T. Loder
                                                           Skyelogicworks
@@ -496,7 +496,7 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 7.  Normative References
 
    [I-D.blank-ietf-bimi]
-              Blank, S., Goldstein, P., Loder, T., Zink, T., and M.
+              Blank, S., Goldstein, P., Loder, T., Zink, T., and J.
               Bradshaw, "Brand Indicators for Message Identification
 
 
@@ -573,9 +573,9 @@ Authors' Addresses
    Email: weihaw@google.com
 
 
-   Marc Bradshaw
+   Jemma Bradshaw
    Fastmail
-   Email: marc@fastmailteam.com
+   Email: jemma@fastmailteam.com
 
 
    Thede Loder
