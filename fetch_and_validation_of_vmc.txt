@@ -5,16 +5,20 @@
 Network                                                        W. Chuang
 Internet-Draft                                                    Google
 Intended status: Standards Track                             J. Bradshaw
+<<<<<<< HEAD
 Expires: 3 November 2025                                        Fastmail
+=======
+Expires: 2 November 2026                                        Fastmail
+>>>>>>> d52ed50 (version update)
                                                                 T. Loder
                                                           Skyelogicworks
                                                               A. Brotman
                                                                  Comcast
-                                                              2 May 2025
+                                                              1 May 2026
 
 
            Fetch and Validation of Verified Mark Certificates
-                 draft-fetch-validation-vmc-wchuang-09
+                 draft-fetch-validation-vmc-wchuang-11
 
 Abstract
 
@@ -38,11 +42,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 November 2025.
+   This Internet-Draft will expire on 2 November 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -53,9 +57,9 @@ Copyright Notice
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 1]
+Chuang, et al.           Expires 2 November 2026                [Page 1]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
    extracted from this document must include Revised BSD License text as
@@ -109,9 +113,9 @@ Table of Contents
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 2]
+Chuang, et al.           Expires 2 November 2026                [Page 2]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
    such as a Certification Authority (CA).
@@ -165,9 +169,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 3]
+Chuang, et al.           Expires 2 November 2026                [Page 3]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
 3.1.  BIMI Assertion Record
@@ -221,9 +225,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 4]
+Chuang, et al.           Expires 2 November 2026                [Page 4]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
 4.  Verified Mark Certificate Profile
@@ -277,9 +281,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 5]
+Chuang, et al.           Expires 2 November 2026                [Page 5]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
 4.3.  BIMI Domain
@@ -333,9 +337,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 6]
+Chuang, et al.           Expires 2 November 2026                [Page 6]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
 4.6.  Certificate Transparency
@@ -389,9 +393,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 7]
+Chuang, et al.           Expires 2 November 2026                [Page 7]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
    5.  Verify that the end-entity certificate is a Verified Mark
@@ -445,9 +449,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 8]
+Chuang, et al.           Expires 2 November 2026                [Page 8]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
    As a preamble, consider if the receiver supports VMC validation and
@@ -501,9 +505,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025                [Page 9]
+Chuang, et al.           Expires 2 November 2026                [Page 9]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
               (BIMI)", Work in Progress, Internet-Draft, draft-blank-
@@ -514,9 +518,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
    [I-D.svg-tiny-ps-abrotman]
               Brotman, A. and J. T. Adams, "SVG Tiny Portable/Secure",
               Work in Progress, Internet-Draft, draft-svg-tiny-ps-
-              abrotman-09, 4 November 2024,
+              abrotman-11, 3 November 2025,
               <https://datatracker.ietf.org/doc/html/draft-svg-tiny-ps-
-              abrotman-09>.
+              abrotman-11>.
 
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
@@ -557,9 +561,9 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2025
 
 
 
-Chuang, et al.           Expires 3 November 2025               [Page 10]
+Chuang, et al.           Expires 2 November 2026               [Page 10]
 
-Internet-Draft         fetch_and_validation_of_vmc              May 2025
+Internet-Draft         fetch_and_validation_of_vmc              May 2026
 
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
@@ -613,4 +617,4 @@ Authors' Addresses
 
 
 
-Chuang, et al.           Expires 3 November 2025               [Page 11]
+Chuang, et al.           Expires 2 November 2026               [Page 11]

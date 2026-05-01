@@ -1,7 +1,7 @@
 %%%
 title = "Fetch and Validation of Verified Mark Certificates"
 abbrev = "fetch_and_validation_of_vmc"
-docName = "draft-fetch-validation-vmc-wchuang-10"
+docName = "draft-fetch-validation-vmc-wchuang-11"
 category = "std"
 ipr = "trust200902"
 area = "Application"
@@ -9,11 +9,11 @@ workgroup = "Network"
 submissiontype = "IETF"
 keyword = [""]
 
-date = 2025-11-03T00:00:00Z
+date = 2026-05-01T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-fetch-validation-vmc-wchuang-10"
+value = "draft-fetch-validation-vmc-wchuang-11"
 stream = "IETF"
 status = "standard"
   
