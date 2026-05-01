@@ -5,11 +5,7 @@
 Network                                                        W. Chuang
 Internet-Draft                                                    Google
 Intended status: Standards Track                             J. Bradshaw
-<<<<<<< HEAD
-Expires: 3 November 2025                                        Fastmail
-=======
 Expires: 2 November 2026                                        Fastmail
->>>>>>> d52ed50 (version update)
                                                                 T. Loder
                                                           Skyelogicworks
                                                               A. Brotman
@@ -500,7 +496,7 @@ Internet-Draft         fetch_and_validation_of_vmc              May 2026
 7.  Normative References
 
    [I-D.blank-ietf-bimi]
-              Blank, S., Goldstein, P., Loder, T., Zink, T., and J.
+              Blank, S., Goldstein, P., Loder, T., Zink, T., and M.
               Bradshaw, "Brand Indicators for Message Identification
 
 
